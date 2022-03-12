@@ -106,13 +106,49 @@ php artisan migrate:rollack
 ```
 ***
 
-<h1 align="center" style="color: indianred">
-----------Seconde Etape----------
-</h1>
 
 ##Ajouter une cle etrangere (Foreign Key) pays_id à Pays  
 ```php
 $table->foreignId('pays_id')->constrained('pays')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+```
+###mettre à jour notre base de donnee
+```shell
+php artisan migrate:fresh
+```
+<h2 align="center" style="color: indianred">
+----------Remplir Notre Base avec des jeux de fausse donnee----------
+</h2>
+
+
+###Generons un factory pour nos Pays
+```shell
+php artisan make:factory PaysFactory   
+```
+###Configueron les champs
+```php
+
+ public function definition()
+    {
+        return [
+            'nom'=> $this->faker->company(),
+            'indicatif' => $this->faker->areaCode
+        ];
+    }
+```
+###Generons un seeder pour nos Pays
+```shell
+php artisan make:seeder PaysSeeder
+```
+###Configuer notre seeder pour qu'il nous genere 3 pays
+```php
+ public function run()
+    {
+        Pays::factory()->count(3)->create();
+    }
+```
+###Lançons l'execution 
+```shell
+php artisan db:seed --class=PaysSeeder
 ```
