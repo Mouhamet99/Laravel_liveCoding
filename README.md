@@ -93,14 +93,13 @@ $table->id();
 $table->string("name")->unique();
 $table->timestamps();
 ```
-##Generate migration
-```shell
-php artisan migrate
-```
 
 ***
 <p style="color: greenyellow">NB: Annuler les  migrations</p>
 Supprimer les derniers migrations qui ont ete faites 
+##Generate migration
+```shell
+php artisan migrate
 
 ```shell
 php artisan migrate:rollack
@@ -110,3 +109,10 @@ php artisan migrate:rollack
 <h1 align="center" style="color: indianred">
 ----------Seconde Etape----------
 </h1>
+
+##Ajouter une cle etrangere (Foreign Key) pays_id à Pays  
+```php
+$table->foreignId('pays_id')->constrained('pays')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+```
