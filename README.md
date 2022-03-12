@@ -108,6 +108,7 @@ php artisan migrate:rollack
 
 
 ##Ajouter une cle etrangere (Foreign Key) pays_id à Pays  
+```...create_regions_table.php```
 ```php
 $table->foreignId('pays_id')->constrained('pays')
                 ->onUpdate('cascade')
@@ -117,16 +118,14 @@ $table->foreignId('pays_id')->constrained('pays')
 ```shell
 php artisan migrate:fresh
 ```
-<h2 align="center" style="color: indianred">
-----------Remplir Notre Base avec des jeux de fausse donnee----------
-</h2>
 
-
+#Remplir Notre Base avec des jeux de fausses donnees
 ###Generons un factory pour nos Pays
 ```shell
 php artisan make:factory PaysFactory   
 ```
-###Configueron les champs
+###Configuerons les champs
+````PaysFactory.php```` 
 ```php
 
  public function definition()
@@ -138,10 +137,12 @@ php artisan make:factory PaysFactory
     }
 ```
 ###Generons un seeder pour nos Pays
+````Terminal```` 
 ```shell
 php artisan make:seeder PaysSeeder
 ```
 ###Configuer notre seeder pour qu'il nous genere 3 pays
+````PaysSeeder.php```` 
 ```php
  public function run()
     {
@@ -152,3 +153,47 @@ php artisan make:seeder PaysSeeder
 ```shell
 php artisan db:seed --class=PaysSeeder
 ```
+
+
+###Generons un factory pour notre table Region
+```Terminal```
+```shell
+php artisan make:factory RegionFactory   
+```
+###Configurons les champs
+```RegionFactory```
+```php
+
+  public function definition()
+    {
+        return [
+            "nom"=> $this->faker->unique()->country(),
+            "pays_id"=> $this->faker->numberBetween(1, 10)
+        ];
+    }
+```
+###Generons un seeder pour notre table Region
+````Terminal```` 
+```shell
+php artisan make:seeder RegionSeeder
+```
+###Configuer notre seeder pour qu'il nous genere 30 regions et configuer le à ce qu'il soit dans un pays exisants dans notre base de donnee
+````RegionSeeder.php```` 
+```php
+  public function run()
+    {
+        return Region::factory()
+            ->count(30)
+            ->state(new Sequence(
+                fn($sequence) => ['pays_id' => Pays::all()->random()],
+            ))
+            ->create();
+    }
+```
+
+### Lançons l'execution 
+```Terminal```
+```shell
+php artisan db:seed --class=RegionSeeder
+```
+

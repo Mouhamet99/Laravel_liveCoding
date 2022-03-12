@@ -15,6 +15,6 @@ class PaysSeeder extends Seeder
      */
     public function run()
     {
-        Pays::factory()->count(3)->create();
+        Pays::factory()->count(10)->create();
     }
 }
