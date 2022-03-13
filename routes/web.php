@@ -19,5 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('/pays', [PaysController:: class, 'index']);
-Route::get('/pays/{id}', [PaysController:: class, 'getRegions'])->whereUuid('id');
+Route::get('/pays/{id}', [PaysController:: class, 'getRegions'])->whereNumber('id');
 

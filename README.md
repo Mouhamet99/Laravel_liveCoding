@@ -24,56 +24,7 @@ many web projects, such as:
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all
-modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video
-tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging
-into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in
-becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in
-the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by
-the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell
-via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-# Generer notre base de donnees
+# Genererons notre base de donnees
 
 ### Installation vai Composer
 
@@ -155,11 +106,11 @@ Cela les derniers migrations qui ont ete faites
 php artisan migrate:rollack
 ```
 
-##Generons les migrations
+## Generons les migrations
+
 ```shell
 php artisan migrate
 ```
-
 
 ### Ajoutons une cle etrangere (Foreign Key) pays_id à Pays
 
@@ -176,16 +127,22 @@ $table->foreignId('pays_id')->constrained('pays')
 ```
 
 ### mettons à jour notre base de donnee
+
 ```Terminal```
+
 ```shell
 php artisan migrate:fresh
 ```
+
 ***
 ***
+
 # Remplir Notre Base avec des jeux de fausses donnees
 
 ### Generons un factory pour nos Pays
+
 ```Terminal```
+
 ```shell
 php artisan make:factory PaysFactory   
 ```
@@ -252,7 +209,9 @@ php artisan make:factory RegionFactory
         ];
     }
 ```
+
 ### Generons un seeder pour notre table Region
+
 ````Terminal````
 
 ```shell
@@ -363,4 +322,63 @@ select count(r.id) as nombre , pays_id as id, p.nom as pays from regions as r jo
     @endforeach
     </tbody>
 </table>
+```
+
+### 2-d) Ajoutons une nouvelle route pour lister les regions d'un pays connaissant son id
+
+```web.php```
+
+```php
+Route::get('/pays/{id}', [PaysController:: class, 'getRegions'])->whereNumber('id');
+```
+
+### 2-e) Configurons notre fonction qui doit etre appelée
+
+```PaysController.php```
+
+```php
+    public function getRegions($id)
+    {
+        $pays= Pays::find($id);
+        $regions = Region::all()->where('pays_id', "=", $id);
+
+        return view('pays.regions', [
+            'regions' => $regions,
+            'pays' => $pays
+        ]);
+    }
+```
+
+### 2-e) Configurons notre vue à ce qu'il recupere le tableau envoyé par la fonction et les affiche dans une balise table
+
+```ressouces/views/pays/regions.blade.php```
+
+```html
+
+<div class="container my-5 pt-5">
+    <div class="container">
+        <h1><span class="fw-bold">Pays: </span> {{$pays->nom}}</h1>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach ($regions as $region)
+        <tr>
+            <th scope="row">{{$loop->index}}</th>
+            <td>{{$region->nom}}</td>
+            <td>
+                <button type="button" class="btn btn-sm btn-primary"><i
+                    class="fa-solid fa-arrow-up-right-from-square"></i></button>
+            </td>
+        </tr>
+        @endforeach
+        </tbody>
+    </table>
+</div>
 ```

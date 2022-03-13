@@ -12,6 +12,7 @@ class PaysController extends Controller
     public function index()
     {
 //        $sql = "select count(r.id) as nombre , pays_id as id, p.nom as pays from regions as r join pays p on p.id = r.pays_id group by pays_id";
+
         $paysRegions = DB::table('regions')
             ->select(DB::raw('pays_id as id,  pays.nom as pays, indicatif , count(regions.id) as nombre_regions'))
             ->groupBy('pays_id', 'pays.nom', 'pays.indicatif')
@@ -25,9 +26,12 @@ class PaysController extends Controller
 
     public function getRegions($id)
     {
+        $pays= Pays::find($id);
+
         $regions = Region::all()->where('pays_id', "=", $id);
         return view('pays.regions', [
-            'regions' => $regions
+            'regions' => $regions,
+            'pays' => $pays
         ]);
     }
 
