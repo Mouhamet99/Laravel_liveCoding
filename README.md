@@ -24,9 +24,9 @@ many web projects, such as:
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-# Genererons notre base de donnees
+# Generons notre base de donnees
 
-### Installation vai Composer
+### Installation via Composer
 
 ```Terminal```
 
@@ -34,7 +34,7 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 composer create-project laravel/laravel example-app
 ```
 
-### Configuer Initial base de donnee
+### Configurons notre environnement base de donnee
 
 ```.env```
 
@@ -47,7 +47,7 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-### Generer notre model Pays avec migration et controller
+### Generons notre model Pays avec migration et controller
 
 ```Terminal```
 
@@ -55,7 +55,7 @@ DB_PASSWORD=
 php artisan make:model Pays -mc
 ```
 
-## Ajouter des champs à notre migration pour Pays
+### Ajoutons des champs à notre migration pour Pays
 
 ```database/migrations/2022_03_11_112912_create_regions_table.php```
 
@@ -68,7 +68,7 @@ public function up()
 }
 ```
 
-## Generate migration
+### Generons nos migrations
 
 ```Terminal```
 
@@ -76,7 +76,7 @@ public function up()
 php artisan migrate
 ```
 
-## Generer notre model Regions avec migration et controller
+### Generer notre model Regions avec migration et controller
 
 ```Terminal```
 
@@ -84,7 +84,7 @@ php artisan migrate
 php artisan make:model Regions -mc
 ```
 
-## Ajouter des champs à notre migration
+### Ajoutons des champs à notre migration
 
 ```database/migrations/.....create_regions_table.php```
 
@@ -100,13 +100,13 @@ public function up()
 ***
 ***
 <p style="color: greenyellow">NB: Pour Annuler les  migrations</p>
-Cela les derniers migrations qui ont ete faites 
+Cela supprime les derniers migrations qui ont ete faites 
 
 ```shell
 php artisan migrate:rollack
 ```
 
-## Generons les migrations
+### Generons les migrations
 
 ```shell
 php artisan migrate
@@ -147,7 +147,7 @@ php artisan migrate:fresh
 php artisan make:factory PaysFactory   
 ```
 
-### Configuerons les champs
+### Configurons les champs
 
 ````PaysFactory.php````
 
@@ -170,7 +170,7 @@ php artisan make:factory PaysFactory
 php artisan make:seeder PaysSeeder
 ```
 
-### Configuer notre seeder pour qu'il nous genere 3 pays
+### Configurons notre seeder pour qu'il nous genere 3 pays
 
 ````PaysSeeder.php````
 
@@ -218,7 +218,7 @@ php artisan make:factory RegionFactory
 php artisan make:seeder RegionSeeder
 ```
 
-### Configuer notre seeder pour qu'il nous genere 30 regions et configuer le à ce qu'il soit dans un pays exisants dans notre base de donnee
+### Configurons notre seeder pour qu'il nous genere 30 regions et configuer le à ce qu'il soit dans un pays exisants dans notre base de donnee
 
 ````RegionSeeder.php````
 
@@ -252,7 +252,7 @@ php artisan db:seed --class=RegionSeeder
 Route::get('/pays', [PaysController:: class, 'index']);
 ```
 
-### 2-a) definissons la methode index qui doit etre appelé à ce qu'il retourne *Hello World*
+### 2-a) Definissons la methode index qui doit etre appelé à ce qu'il retourne *Hello World*
 
 ```PaysController.php```
 
