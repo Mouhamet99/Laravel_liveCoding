@@ -382,10 +382,76 @@ Route::get('/pays/{id}', [PaysController:: class, 'getRegions'])->whereNumber('i
     </table>
 </div>
 ```
-### Generons notre model Company avec migration et controller
+
+### Generons notre model Departement, Commune, Quartier et Quartier,Entreprise avec migration et controller
 
 ```Terminal```
 
 ```shell
+ php artisan make:model Departement -mc
+ php artisan make:model Commune -mc
+ php artisan make:model Quartier -mc
  php artisan make:model Entreprise -mc
 ```
+
+***
+***
+***
+
+### Generons un factory pour notre table Departement
+
+```Terminal```
+
+```shell
+php artisan make:factory DepartementFactory   
+```
+
+### Configurons les champs
+
+```DepartementFactory```
+
+```php
+
+  public function definition()
+    {
+        return [
+            "nom"=> $this->faker->unique()->country(),
+            "pays_id"=> $this->faker->number()
+        ];
+    }
+```
+
+### Generons un seeder pour notre table Departement
+
+````Terminal````
+
+```shell
+php artisan make:seeder DepartementSeeder
+```
+
+### Configurons notre seeder pour qu'il nous genere 60 regions et configuer le à ce qu'il soit dans un pays exisants dans notre base de donnee
+
+````DepartementSeeder.php````
+
+```php
+  public function run()
+    {
+     return Departement::factory()
+            ->count(60)
+            ->state(new Sequence(
+                fn($sequence) => ['region_id' => Region::all()->random()],
+            ))
+            ->create();
+    }
+```
+
+### Lançons l'execution
+
+```Terminal```
+
+```shell
+php artisan db:seed --class=DepartementSeeder
+```
+
+
+
