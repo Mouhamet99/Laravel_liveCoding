@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\PaysController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,9 @@ Route::get('/', function () {
 
 Route::get('/pays', [PaysController:: class, 'index']);
 Route::get('/pays/{id}', [PaysController:: class, 'getRegions'])->whereNumber('id');
+
+//Route::get('/entreprises/{id}', [PaysController:: class, 'getRegions'])->whereNumber('id');
+Route::get('/entreprises/create', [EntrepriseController:: class, 'create']);
+Route::post('/entreprises/store', [EntrepriseController:: class, 'store']);
+
 
