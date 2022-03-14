@@ -22,8 +22,10 @@ Route::get('/', function () {
 Route::get('/pays', [PaysController:: class, 'index']);
 Route::get('/pays/{id}', [PaysController:: class, 'getRegions'])->whereNumber('id');
 
-//Route::get('/entreprises/{id}', [PaysController:: class, 'getRegions'])->whereNumber('id');
-Route::get('/entreprises/create', [EntrepriseController:: class, 'create']);
-Route::post('/entreprises/store', [EntrepriseController:: class, 'store']);
+Route::get('/entreprises', [EntrepriseController::class, 'index'])->name('entreprises.index');
+Route::get('/entreprises/create', [EntrepriseController::class, 'create']);
+Route::post('/entreprises/store', [EntrepriseController::class, 'store']);
+
+Route::get('/entreprises/destroy/{id}', [EntrepriseController:: class, 'destroy'])->whereNumber('id');
 
 

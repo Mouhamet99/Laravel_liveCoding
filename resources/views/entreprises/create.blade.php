@@ -26,7 +26,8 @@
                 <div class="form-content">
                     <div class="form-items">
                         <h3 class="text-center">Registration</h3>
-                        <form class="requires-validation" novalidate action="" method="post">
+                        <form class="requires-validation" novalidate action="/entreprises/store" method="POST">
+                            @csrf
                             <div class="col-md-12 my-4">
                                 <input class="form-control "
                                        type="text" name="nom" value=""
@@ -128,3 +129,7 @@
 </div>
 </body>
 </html>
+
+
+
+

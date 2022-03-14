@@ -9,4 +9,7 @@ class Entreprise extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    protected $casts = [
+    'dateCreation' => 'datetime:Y-m-d',
+];
 }
