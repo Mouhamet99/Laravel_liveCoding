@@ -382,3 +382,10 @@ Route::get('/pays/{id}', [PaysController:: class, 'getRegions'])->whereNumber('i
     </table>
 </div>
 ```
+### Generons notre model Company avec migration et controller
+
+```Terminal```
+
+```shell
+ php artisan make:model Entreprise -mc
+```
